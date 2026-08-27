@@ -1,4 +1,4 @@
-package framework.dao;
+package model;
 
 // Bean
 public class Usuario {
