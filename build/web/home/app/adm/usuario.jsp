@@ -1,0 +1,46 @@
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page import="java.util.ArrayList" %>
+<%@page import="model.Usuario" %>
+<%@page import="model.UsuarioDAO" %>
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>Usuários</title>
+    </head>
+    <body>
+        
+        <% 
+            ArrayList<Usuario> lista = new UsuarioDAO().getAll();
+        %>
+        
+        <h1>Usuários</h1>
+        
+        <table>
+            
+            <tr>
+                <th>Id</th>
+                <th>Nome</th>
+                <th></th>
+                <th></th>
+            </tr>
+            
+            <% for( Usuario us : lista ) { %>
+                <tr>
+                    
+                    <td><%= us.getId() %></td>
+                    <td><%= us.getNome() %></td>
+                    
+                    <td><a href="/sgcms2a2026/home/app/adm/usuario_form.jsp?id=<%= us.getId() %>">Alterar</a></td>
+                    
+                    <td><a href="/sgcms2a2026/home?task=usuario&action=delete&id=<%= us.getId()%>" onclick="return confirm('Deseja realmente excluir Usuário <%= us.getId() %> -- <%= us.getNome() %>')" >Excluir</a></td>
+                    
+                </tr>
+            <% } %>
+            
+        </table>
+            
+        <button onclick="window.location.href='/sgcms2a2026/home/app/adm/usuario_form.jsp'">Adicionar</button>
+        
+    </body>
+</html>
