@@ -22,7 +22,7 @@
         
         <h1>Cadastro Usuário</h1>
         
-        <form action="/sgcms2a2026/home?task=usuario&action=<%= action %>" method="post">
+        <form action="/sgcmaq3038483/home?task=usuario&action=<%= action %>" method="post">
             
             <label for="id">Id:</label>
             <input type="number" id="id" name="id" value="<%= us != null ? us.getId() : "" %>" required <%= us != null ? "readonly" : "" %>> <br/>
@@ -32,6 +32,9 @@
             
             <label for="senha">Senha:</label>
             <input type="password" id="senha" name="senha" value="<%= us != null ? us.getSenha() : "" %>" required><br/>
+            
+            <label for="tipo_usuario_id">Tipo Usuário Id:</label>
+            <input type="number" id="tipo_usuario_id" name="tipo_usuario_id" value="<%= us != null ? us.getTipoUsuarioId() : "" %>" required> <br/>
             
             <input type="submit" value="Salvar">
             

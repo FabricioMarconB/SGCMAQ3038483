@@ -21,6 +21,7 @@
             <tr>
                 <th>Id</th>
                 <th>Nome</th>
+                <th>Tipo Usuário Id</th>
                 <th></th>
                 <th></th>
             </tr>
@@ -30,17 +31,18 @@
                     
                     <td><%= us.getId() %></td>
                     <td><%= us.getNome() %></td>
+                    <td><%= us.getTipoUsuarioId() %></td>
                     
-                    <td><a href="/sgcms2a2026/home/app/adm/usuario_form.jsp?id=<%= us.getId() %>">Alterar</a></td>
+                    <td><a href="/sgcmaq3038483/home/app/adm/usuario_form.jsp?id=<%= us.getId() %>">Alterar</a></td>
                     
-                    <td><a href="/sgcms2a2026/home?task=usuario&action=delete&id=<%= us.getId()%>" onclick="return confirm('Deseja realmente excluir Usuário <%= us.getId() %> -- <%= us.getNome() %>')" >Excluir</a></td>
+                    <td><a href="/sgcmaq3038483/home?task=usuario&action=delete&id=<%= us.getId()%>" onclick="return confirm('Deseja realmente excluir Usuário <%= us.getId() %> -- <%= us.getNome() %>')" >Excluir</a></td>
                     
                 </tr>
             <% } %>
             
         </table>
             
-        <button onclick="window.location.href='/sgcms2a2026/home/app/adm/usuario_form.jsp'">Adicionar</button>
+        <button onclick="window.location.href='/sgcmaq3038483/home/app/adm/usuario_form.jsp'">Adicionar</button>
         
     </body>
 </html>

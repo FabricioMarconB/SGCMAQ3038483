@@ -5,14 +5,16 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.servlet.http.HttpSession;
 
 import framework.log.ExceptionLogTrack;
+import jakarta.servlet.http.Cookie;
 
-import model.Usuario;
-import model.UsuarioDAO;
+import model.*;
 
 public class FrontController extends HttpServlet {
 
+    
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         
@@ -21,7 +23,13 @@ public class FrontController extends HttpServlet {
         try {
         
             switch (task) {
+                
+                case "login": doDefault(req, resp); break;
+                
+                case "logout": doGetLogout(req, resp); break;
 
+                case "tipousuario": doGetTipoUsuario(req, resp); break;
+                
                 case "usuario": doGetUsuario(req, resp); break;
 
                 case null:
@@ -46,6 +54,10 @@ public class FrontController extends HttpServlet {
         
             switch (task) {
 
+                case "login": doPostLogin(req, resp); break;
+                
+                case "tipousuario": doPostTipoUsuario(req, resp); break;
+                
                 case "usuario": doPostUsuario(req, resp); break;
 
                 case null:
@@ -62,12 +74,49 @@ public class FrontController extends HttpServlet {
     }
 
 
+    
+    
     private void doDefault(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         
         req.getRequestDispatcher("/home/login.jsp").forward(req, resp);
         
     }
     
+    
+    private void doGetLogout(HttpServletRequest req, HttpServletResponse resp) throws Exception {
+        
+        HttpSession sessao = req.getSession(false);
+        if( sessao != null ) {
+            sessao.removeAttribute("tipo_usuario_sessao");
+            sessao.removeAttribute("usuario_sessao");
+            sessao.invalidate();
+        }
+                
+        req.getRequestDispatcher("/home/login.jsp").forward(req, resp);
+        
+        
+    }
+    
+    private void doGetTipoUsuario(HttpServletRequest req, HttpServletResponse resp) throws Exception {
+        
+        String action = req.getParameter("action");
+        
+        if( ( action != null ) && ( action.equals("delete") ) ) {
+            
+            int id = Integer.parseInt( req.getParameter("id") );
+            
+            TipoUsuario usTp = new TipoUsuario(id); // bean
+            
+            TipoUsuarioDAO dao = new TipoUsuarioDAO(); // dao
+            
+            dao.delete(usTp);
+            
+        }
+        
+        req.getRequestDispatcher("/home/app/adm/tipousuario.jsp").forward(req, resp);
+        
+        
+    }
     
     private void doGetUsuario(HttpServletRequest req, HttpServletResponse resp) throws Exception {
         
@@ -91,6 +140,75 @@ public class FrontController extends HttpServlet {
     }
     
     
+    
+    private void doPostLogin(HttpServletRequest req, HttpServletResponse resp) throws Exception {
+        
+        int id = Integer.parseInt( req.getParameter("id") );
+        String senha = req.getParameter("senha");
+        
+        UsuarioDAO dao = new UsuarioDAO(); // dao
+        
+        Usuario us = dao.getUnique(id);
+        
+        Usuario usTry = new Usuario(id);
+        usTry.setSenha(senha);
+        
+        Cookie cookieId = new Cookie( "id", String.valueOf(id) );
+        cookieId.setMaxAge( 60 * 2 ); // segundos
+        resp.addCookie(cookieId);
+        
+        if( ( us != null ) && ( us.getSenha().equals( usTry.getSenha() ) )  ) {
+            
+            TipoUsuario usTp = new TipoUsuarioDAO().getUnique( us.getTipoUsuarioId() );
+            
+            HttpSession sessao = req.getSession(false);
+            if( sessao != null ) {
+                sessao.invalidate();
+            }
+            
+            sessao = req.getSession(true);
+            sessao.setMaxInactiveInterval( 60 * 10 ); // segundos
+            sessao.setAttribute("tipo_usuario_sessao", usTp);
+            sessao.setAttribute("usuario_sessao", us);
+            
+            req.getRequestDispatcher("/home/app/menu.jsp").forward(req, resp);            
+            
+        } else {
+            req.getRequestDispatcher("/home/login.jsp").forward(req, resp);
+        }
+        
+    }
+    
+    private void doPostTipoUsuario(HttpServletRequest req, HttpServletResponse resp) throws Exception {
+        
+        String action = req.getParameter("action"); // new || update
+        
+        int id = Integer.parseInt( req.getParameter("id") );
+        
+        String moduloAdministrativo = req.getParameter("modulo_administrativo");
+        if( moduloAdministrativo == null ) moduloAdministrativo = "N";
+        
+        String moduloAgendamento = req.getParameter("modulo_agendamento");
+        if( moduloAgendamento == null ) moduloAgendamento = "N";
+        
+        String moduloAtendimento = req.getParameter("modulo_atendimento");
+        if( moduloAtendimento == null ) moduloAtendimento = "N";
+        
+        TipoUsuario usTp = new TipoUsuario(id); // bean
+        usTp.setModuloAdministrativo(moduloAdministrativo);
+        usTp.setModuloAtendimento(moduloAtendimento);
+        usTp.setModuloAgendamento(moduloAgendamento);
+        
+        TipoUsuarioDAO dao = new TipoUsuarioDAO(); // dao
+        
+        if( action.equals("new") ) dao.insert( usTp );
+        
+        if( action.equals("update") ) dao.update( usTp );
+        
+        req.getRequestDispatcher("/home/app/adm/tipousuario.jsp").forward(req, resp);
+        
+    }
+    
     private void doPostUsuario(HttpServletRequest req, HttpServletResponse resp) throws Exception {
         
         String action = req.getParameter("action"); // new || update
@@ -98,10 +216,18 @@ public class FrontController extends HttpServlet {
         int id = Integer.parseInt( req.getParameter("id") );
         String nome = req.getParameter("nome");
         String senha = req.getParameter("senha");
+        int tipoUsuarioId = Integer.parseInt( req.getParameter("tipo_usuario_id") );
         
         Usuario us = new Usuario(id); // bean
         us.setNome(nome);
-        us.setSenha(senha);
+        
+        if( senha.length() > 20 ) {
+            us.setSenhaHash(senha);
+        } else {
+            us.setSenha(senha);
+        }
+        
+        us.setTipoUsuarioId(tipoUsuarioId);
         
         UsuarioDAO dao = new UsuarioDAO(); // dao
         

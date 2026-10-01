@@ -2,11 +2,10 @@ package model;
 
 import java.util.ArrayList;
 
-import java.sql.SQLException;
 
 public class Main {
     
-    public static void main(String[] args) throws SQLException{
+    public static void main(String[] args) throws Exception{
         
         Usuario usuario = new Usuario(11);
         usuario.setNome("Usuário 11");
