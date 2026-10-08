@@ -25,7 +25,7 @@
         <form action="/sgcmaq3038483/home?task=tipousuario&action=<%= action %>" method="post">
             
             <label for="id">Id:</label>
-            <input type="number" id="id" name="id" value="<%= tpUs != null ? tpUs.getId() : "" %>" required <%= tpUs != null ? "readonly" : "" %>> <br/>
+            <input type="number"  name="id" value="<%= tpUs != null ? tpUs.getId() : "" %>" required <%= tpUs != null ? "readonly" : "" %>> <br/>
             
             <input type="checkbox" id="modulo_administrativo" name="modulo_administrativo" value="S" <%= ( (tpUs != null) && ( tpUs.getModuloAdministrativo().equals("S") ) ) ? "checked" : "" %> >
             <label for="modulo_administrativo">Módulo Administrativo</label> <br> <br>

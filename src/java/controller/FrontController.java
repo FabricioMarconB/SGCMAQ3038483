@@ -82,7 +82,6 @@ public class FrontController extends HttpServlet {
         
     }
     
-    
     private void doGetLogout(HttpServletRequest req, HttpServletResponse resp) throws Exception {
         
         HttpSession sessao = req.getSession(false);
@@ -139,8 +138,6 @@ public class FrontController extends HttpServlet {
         
     }
     
-    
-    
     private void doPostLogin(HttpServletRequest req, HttpServletResponse resp) throws Exception {
         
         int id = Integer.parseInt( req.getParameter("id") );
@@ -174,6 +171,7 @@ public class FrontController extends HttpServlet {
             req.getRequestDispatcher("/home/app/menu.jsp").forward(req, resp);            
             
         } else {
+            req.setAttribute("msg", "id e/ou senha incorreto! ");
             req.getRequestDispatcher("/home/login.jsp").forward(req, resp);
         }
         

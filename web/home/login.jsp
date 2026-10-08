@@ -7,6 +7,11 @@
         
     </head>
     <body>
+        <% if( request.getAttribute("msg") != null){ %>
+        <script>
+            alert('<%= (String) request.getAttribute("msg") %>');
+            <% } %>
+        </script>
         <% 
             String id = "";
             Cookie[] cookies = request.getCookies();
@@ -25,7 +30,7 @@
         <form action="/sgcmaq3038483/home?task=login" method="post">
             
             <label for="id">Id:</label>
-            <input type="number" id="id" name="id" value="<%= id %>" required <br/>
+            <input type="numeber"  id="id" name="id" value="<%= id %>" required <br/>
             
             <label for="senha">Senha:</label>
             <input type="password" id="senha" name="senha" value="" required><br/>

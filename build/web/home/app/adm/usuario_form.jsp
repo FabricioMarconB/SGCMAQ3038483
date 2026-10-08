@@ -25,7 +25,7 @@
         <form action="/sgcmaq3038483/home?task=usuario&action=<%= action %>" method="post">
             
             <label for="id">Id:</label>
-            <input type="number" id="id" name="id" value="<%= us != null ? us.getId() : "" %>" required <%= us != null ? "readonly" : "" %>> <br/>
+            <input type="number"  id="id" name="id" value="<%= us != null ? us.getId() : "" %>" required <%= us != null ? "readonly" : "" %>> <br/>
             
             <label for="nome">Nome:</label>
             <input type="text" id="nome" name="nome" value="<%= us != null ? us.getNome() : "" %>"><br/>
