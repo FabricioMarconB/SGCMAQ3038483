@@ -19,7 +19,7 @@
                 if( us != null ) action = "update";
             }
         %>
-        
+        <%@include file="/home/app/modulos.jsp" %> 
         <h1>Cadastro Usuário</h1>
         
         <form action="/sgcmaq3038483/home?task=usuario&action=<%= action %>" method="post">

@@ -13,7 +13,7 @@
         <% 
             ArrayList<Usuario> lista = new UsuarioDAO().getAll();
         %>
-        
+        <%@include file="/home/app/modulos.jsp" %> 
         <h1>Usuários</h1>
         
         <table>

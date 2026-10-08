@@ -19,7 +19,7 @@
                 if( tpUs != null ) action = "update";
             }
         %>
-        
+        <%@include file="/home/app/modulos.jsp" %> 
         <h1>Cadastro Tipo Usuário</h1>
         
         <form action="/sgcmaq3038483/home?task=tipousuario&action=<%= action %>" method="post">

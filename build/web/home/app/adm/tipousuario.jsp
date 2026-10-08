@@ -14,6 +14,8 @@
             ArrayList<TipoUsuario> lista = new TipoUsuarioDAO().getAll();
         %>
         
+        <%@include file="/home/app/modulos.jsp" %> 
+        
         <h1>Tipo Usuários</h1>
         
         <table>
