@@ -1,4 +1,4 @@
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
+﻿<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@page import="java.util.ArrayList" %>
 <%@page import="model.Usuario" %>
 <%@page import="model.UsuarioDAO" %>
@@ -13,7 +13,9 @@
         <% 
             ArrayList<Usuario> lista = new UsuarioDAO().getAll();
         %>
-        <%@include file="/home/app/modulos.jsp" %> 
+        
+        <%@include file="/home/app/modulos.jsp"%>
+        
         <h1>Usuários</h1>
         
         <table>
@@ -22,6 +24,16 @@
                 <th>Id</th>
                 <th>Nome</th>
                 <th>Tipo Usuário Id</th>
+                
+                <th>Nascimento</th>
+                <th>Logradouro</th>
+                <th>Número</th>
+                <th>Bairro</th>
+                <th>Cidade</th>
+                <th>Estado</th>
+                <th>UF</th>
+                <th>CEP</th>
+                
                 <th></th>
                 <th></th>
             </tr>
@@ -32,6 +44,15 @@
                     <td><%= us.getId() %></td>
                     <td><%= us.getNome() %></td>
                     <td><%= us.getTipoUsuarioId() %></td>
+                    
+                    <td><%= us.getNascimento() != null ? us.getNascimento() : "-" %></td>
+                    <td><%= us.getLogradouro() != null ? us.getLogradouro() : "-" %></td>
+                    <td><%= us.getNumero() != null ? us.getNumero() : "-" %></td>
+                    <td><%= us.getBairro() != null ? us.getBairro() : "-"  %></td>
+                    <td><%= us.getCidade() != null ? us.getCidade() : "-" %></td>
+                    <td><%= us.getEstado() != null ? us.getEstado() : "-" %></td>
+                    <td><%= us.getUf() != null ? us.getUf() : "-" %></td>
+                    <td><%= us.getCep() != null ? us.getCep() : "-" %></td>
                     
                     <td><a href="/sgcmaq3038483/home/app/adm/usuario_form.jsp?id=<%= us.getId() %>">Alterar</a></td>
                     
@@ -46,3 +67,4 @@
         
     </body>
 </html>
+

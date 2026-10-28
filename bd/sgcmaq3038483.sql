@@ -1,4 +1,5 @@
-drop database sgcmaq3038483;
+﻿drop database sgcmaq3038483;
+
 create database sgcmaq3038483;
 use sgcmaq3038483;
 
@@ -15,12 +16,18 @@ create table usuario (
     nome varchar(50),
     senha varchar(100) not null,
     tipo_usuario_id int not null,
+    nascimento date,
+    logradouro varchar(100),
+    numero varchar(10),
+    bairro varchar(100),
+    cidade varchar(100),
+    estado varchar(50),
+    uf varchar(2),
+    cep varchar(10),
     primary key (id),
     foreign key (tipo_usuario_id) references tipo_usuario(id)
 );
 
-insert into tipo_usuario values (1024, 'S', 'S', 'S');
-insert into tipo_usuario values (1024, 'Admin', '192ad82b61931a696f246ceb68fc37d698506be05a2b296b65ddd82492c9411b', '1024');
+insert into tipo_usuario values ( 1024, 'S',  'S',  'S' );
+insert into usuario ( id, nome, senha, tipo_usuario_id ) values ( 1024, 'Admin',  '192ad82b61931a696f246ceb68fc37d698506be05a2b296b65ddd82492c9411b', 1024 );
 
-select * from usuario;
-select * from tipo_usuario;

@@ -82,6 +82,7 @@ public class FrontController extends HttpServlet {
         
     }
     
+    
     private void doGetLogout(HttpServletRequest req, HttpServletResponse resp) throws Exception {
         
         HttpSession sessao = req.getSession(false);
@@ -138,6 +139,8 @@ public class FrontController extends HttpServlet {
         
     }
     
+    
+    
     private void doPostLogin(HttpServletRequest req, HttpServletResponse resp) throws Exception {
         
         int id = Integer.parseInt( req.getParameter("id") );
@@ -171,7 +174,7 @@ public class FrontController extends HttpServlet {
             req.getRequestDispatcher("/home/app/menu.jsp").forward(req, resp);            
             
         } else {
-            req.setAttribute("msg", "id e/ou senha incorreto! ");
+            req.setAttribute("msg", "id e/ou senha incorreto(s)!");
             req.getRequestDispatcher("/home/login.jsp").forward(req, resp);
         }
         
@@ -212,7 +215,7 @@ public class FrontController extends HttpServlet {
         String action = req.getParameter("action"); // new || update
         
         int id = Integer.parseInt( req.getParameter("id") );
-        String nome = req.getParameter("nome");
+        String nome = req.getParameter("nome"); // sem o tratamento do vazio como null
         String senha = req.getParameter("senha");
         int tipoUsuarioId = Integer.parseInt( req.getParameter("tipo_usuario_id") );
         
@@ -226,6 +229,55 @@ public class FrontController extends HttpServlet {
         }
         
         us.setTipoUsuarioId(tipoUsuarioId);
+        
+        String nascimento = req.getParameter("nascimento");
+        if( nascimento.isBlank() ) {
+            nascimento = null;
+        }
+        
+        String logradouro = req.getParameter("logradouro");
+        if( logradouro.isBlank() ) {
+            logradouro = null;
+        }
+        
+        String numero = req.getParameter("numero");
+        if( numero.isBlank() ) {
+            numero = null;
+        }
+        
+        String bairro = req.getParameter("bairro");
+        if( bairro.isBlank() ) {
+            bairro = null;
+        }
+        
+        String cidade = req.getParameter("cidade");
+        if( cidade.isBlank() ) {
+            cidade = null;
+        }
+        
+        String estado = req.getParameter("estado");
+        if( estado.isBlank() ) {
+            estado = null;
+        }
+        
+        String uf = req.getParameter("uf");
+        if( uf.isBlank() ) {
+            uf = null;
+        }
+        
+        String cep = req.getParameter("cep");
+        if( cep.isBlank() ) {
+            cep = null;
+        }
+        
+        us.setNascimento(nascimento);
+        us.setLogradouro(logradouro);
+        us.setNumero(numero);
+        us.setBairro(bairro);
+        us.setCidade(cidade);
+        us.setEstado(estado);
+        us.setUf(uf);
+        us.setCep(cep);
         
         UsuarioDAO dao = new UsuarioDAO(); // dao
         
